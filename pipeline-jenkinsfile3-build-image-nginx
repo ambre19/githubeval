@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/benjamincrouzet/githubeval.git'
+                git branch: 'main', url: 'https://github.com/ambre19/githubeval.git'
             }
         }
         stage('Build-image-nginx') {
