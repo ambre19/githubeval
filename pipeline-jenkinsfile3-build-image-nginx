@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/benjamincrouzet/githubeval.git'
+            }
+        }
+        stage('Build-image-nginx') {
+            steps {
+                sh 'docker build -t mon-nginx .'
+            }
+        }
+    }
+}

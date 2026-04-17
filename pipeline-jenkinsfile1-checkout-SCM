@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('CheckoutSCM') {
+            steps {
+                cleanWs()
+		}
+	}
+        stage('Clone GitHub') {
+            steps {
+                git branch: 'main', url: 'https://github.com/benjamincrouzet/githubeval.git'
+            }
+        }
+    }
+}
