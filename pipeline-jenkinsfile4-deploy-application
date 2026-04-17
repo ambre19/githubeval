@@ -1,1 +1,31 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout-SCM') {
+            steps {
+                cleanWs()
+                git branch: 'main', url: 'https://github.com/ambre19/githubeval.git'
+            }
+        }
 
+        stage('Clean') {
+            steps {
+                sh 'docker rm -f myapp 2>/dev/null || true'
+                sh 'docker rmi -f mon-nginx 2>/dev/null || true'
+            }
+        }
+
+        stage('Build-image-nginx') {
+            steps {
+                sh 'docker build -t mon-nginx .'
+            }
+        }
+
+        stage('Deploy-myapp') {
+            steps {
+                sh 'docker run -d --name myapp -p 80:80 mon-nginx'
+                sh 'cp index.html /var/lib/docker/volumes/myapp/_data/ 2>/dev/null || docker cp index.html myapp:/usr/share/nginx/html/index.html'
+            }
+        }
+    }
+}
